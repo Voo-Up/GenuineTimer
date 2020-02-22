@@ -2,21 +2,32 @@ package com.example.examineetimer;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import android.widget.TextView;
 
 import com.ncorti.slidetoact.SlideToActView;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class LockscreenActivity extends Activity {
+    private static final String TAG = "LockscreenActivity";
+    private Timer studyTimer;
+
+    private int totalStudySec;
+    private TextView studyTimeTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lockscreen);
+
+        studyTimeTextView = (TextView) findViewById(R.id.studyTimeTextView);
+
+        startStudyTimer();
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
@@ -26,9 +37,19 @@ public class LockscreenActivity extends Activity {
             @Override
             public void onSlideComplete(SlideToActView slideToActView) {
                 //Send Timer
+                Log.i(TAG, "onSlideComplete");
+                studyTimer.cancel();
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onUserLeaveHint() {
+        super.onUserLeaveHint();
+        Log.i(TAG,"Home Key Down");
+        studyTimer.cancel();
+        finish();
     }
 
     @Override
@@ -49,5 +70,44 @@ public class LockscreenActivity extends Activity {
         newUiOptions |= View.SYSTEM_UI_FLAG_FULLSCREEN;
         newUiOptions |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
         getWindow().getDecorView().setSystemUiVisibility(newUiOptions);
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch(keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                Log.i(TAG, "onKeyDown");
+                studyTimer.cancel();
+                break;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void startStudyTimer() {
+        studyTimer = new Timer();
+        totalStudySec = 0;
+
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                totalStudySec++;
+                Log.i(TAG,"Timer running..." + totalStudySec);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String timeString = makeTotalStudyTime(totalStudySec);
+                        studyTimeTextView.setText(timeString);
+                    }
+                });
+            }
+        };
+        studyTimer.schedule(timerTask,0, 1000);
+    }
+
+    private String makeTotalStudyTime(int totalStudySec) {
+        int hours = totalStudySec / 3600;
+        int minutes = (totalStudySec % 3600) / 60;
+        int seconds = totalStudySec % 60;
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 }
