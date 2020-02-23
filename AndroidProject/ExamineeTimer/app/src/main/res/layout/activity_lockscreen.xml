@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/lockScreenTitle"
+            android:id="@+id/tv_lockscreen_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
@@ -31,18 +31,75 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/studyTimeTextView"
+            android:id="@+id/tv_study_timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
-            android:text="SEC"
+            android:layout_marginTop="80dp"
+            android:text="HH : MM : SS"
             android:textColor="@color/whiteColor"
-            android:textSize="@dimen/lc_switch_textsize"
+            android:textSize="50dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_lockscreen_title" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_study_timer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+            <TextView
+                android:id="@+id/tv_start_time_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start Time : "
+                android:textColor="@color/whiteColor"
+                android:textSize="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_start_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HH : MM : SS"
+                android:textColor="@color/whiteColor"
+                android:textSize="20dp"
+                app:layout_constraintStart_toEndOf="@+id/tv_start_time_label"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            app:layout_constraintTop_toBottomOf="@+id/cl_start_time"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+            <TextView
+                android:id="@+id/tv_current_time_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current Time : "
+                android:textColor="@color/whiteColor"
+                android:textSize="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_current_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HH : MM : SS"
+                android:textColor="@color/whiteColor"
+                android:textSize="20dp"
+                app:layout_constraintStart_toEndOf="@+id/tv_current_time_label"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+`
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

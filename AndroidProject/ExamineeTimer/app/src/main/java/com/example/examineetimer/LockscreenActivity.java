@@ -18,16 +18,14 @@ public class LockscreenActivity extends Activity {
     private Timer studyTimer;
 
     private int totalStudySec;
-    private TextView studyTimeTextView;
+    private TextView tvStudyTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lockscreen);
 
-        studyTimeTextView = (TextView) findViewById(R.id.studyTimeTextView);
-
-        startStudyTimer();
+        tvStudyTime = (TextView) findViewById(R.id.tv_study_timer);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
@@ -36,19 +34,24 @@ public class LockscreenActivity extends Activity {
         sta.setOnSlideCompleteListener(new SlideToActView.OnSlideCompleteListener() {
             @Override
             public void onSlideComplete(SlideToActView slideToActView) {
-                //Send Timer
                 Log.i(TAG, "onSlideComplete");
-                studyTimer.cancel();
                 finish();
             }
         });
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        //stop timer and send to main acitvity
+        Log.i(TAG, "Timer stop and save.");
+        studyTimer.cancel();
+    }
+
+    @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
         Log.i(TAG,"Home Key Down");
-        studyTimer.cancel();
         finish();
     }
 
@@ -70,13 +73,14 @@ public class LockscreenActivity extends Activity {
         newUiOptions |= View.SYSTEM_UI_FLAG_FULLSCREEN;
         newUiOptions |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
         getWindow().getDecorView().setSystemUiVisibility(newUiOptions);
+
+        startStudyTimer();
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch(keyCode) {
             case KeyEvent.KEYCODE_BACK:
                 Log.i(TAG, "onKeyDown");
-                studyTimer.cancel();
                 break;
         }
         return super.onKeyDown(keyCode, event);
@@ -96,7 +100,7 @@ public class LockscreenActivity extends Activity {
                     @Override
                     public void run() {
                         String timeString = makeTotalStudyTime(totalStudySec);
-                        studyTimeTextView.setText(timeString);
+                        tvStudyTime.setText(timeString);
                     }
                 });
             }
