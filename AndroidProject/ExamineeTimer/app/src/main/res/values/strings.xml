@@ -3,7 +3,7 @@
     <string name="lockScreenSwitchText">LockScreen Switch</string>
     <string name="lockscrenOn">LockScreen Turn On</string>
     <string name="lockscrenOff">LockScreen Turn Off</string>
-    <string name="showLockScreenText">Show LockScreen</string>
+    <string name="showLockScreenText">Start Timer</string>
     <string name="unlock">UnLock</string>
     <string name="lockScreenText">LockScreen</string>
     <string name="lockScreenSwipeText"><![CDATA[slide to stop timer >>]]></string>

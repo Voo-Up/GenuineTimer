@@ -29,26 +29,28 @@
 
     <TextView
         android:id="@+id/mtrl_list_item_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/mtrl_list_item_icon"
-        android:paddingTop="16dp"
-        android:paddingEnd="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/mtrl_list_item_secondary_text"
+        android:layout_toRightOf="@+id/mtrl_list_item_icon"
+        android:layout_margin="16dp"
+        android:textSize="24sp"
         android:maxLines="1"
         android:text="TEXT LINE NO 1"
+        android:layout_centerVertical="true"
         android:textAppearance="?attr/textAppearanceSubtitle1"
         android:textColor="@color/mtrl_list_item_tint"/>
 
     <TextView
         android:id="@+id/mtrl_list_item_secondary_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/mtrl_list_item_text"
-        android:layout_gravity="center_vertical"
-        android:layout_toEndOf="@id/mtrl_list_item_icon"
-        android:paddingEnd="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:textSize="12dp"
+        android:maxLines="1"
         android:text="TEXT LINE NO 2"
-        android:maxLines="2"
+        android:layout_centerVertical="true"
         android:textAppearance="?attr/textAppearanceBody2"
         android:textColor="@color/mtrl_list_item_tint"/>
 
