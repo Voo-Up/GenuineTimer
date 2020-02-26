@@ -147,18 +147,6 @@ public class LockscreenActivity extends Activity {
 
     private void finishTimer() {
         studyTimer.cancel();
-
-        /*
-         *TODO: save total time for history
-         */
-
         finish();
-    }
-
-    private String makeTotalStudyTime(int totalStudySec) {
-        int hours = totalStudySec / 3600;
-        int minutes = (totalStudySec % 3600) / 60;
-        int seconds = totalStudySec % 60;
-        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 }
