@@ -38,8 +38,7 @@ public class LockscreenActivity extends Activity {
             public void onSlideComplete(SlideToActView slideToActView) {
                 //Send Timer
                 Log.i(TAG, "onSlideComplete");
-                studyTimer.cancel();
-                finish();
+                finishTimer();
             }
         });
     }
@@ -48,8 +47,7 @@ public class LockscreenActivity extends Activity {
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
         Log.i(TAG,"Home Key Down");
-        studyTimer.cancel();
-        finish();
+        finishTimer();
     }
 
     @Override
@@ -75,8 +73,10 @@ public class LockscreenActivity extends Activity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch(keyCode) {
             case KeyEvent.KEYCODE_BACK:
-                Log.i(TAG, "onKeyDown");
-                studyTimer.cancel();
+                //Log.i(TAG, "onKeyDown");
+                //studyTimer.cancel();
+
+                finishTimer();
                 break;
         }
         return super.onKeyDown(keyCode, event);
@@ -102,6 +102,16 @@ public class LockscreenActivity extends Activity {
             }
         };
         studyTimer.schedule(timerTask,0, 1000);
+    }
+
+    private void finishTimer() {
+        studyTimer.cancel();
+
+        /*
+         *TODO: save total time for history
+         */
+
+        finish();
     }
 
     private String makeTotalStudyTime(int totalStudySec) {
