@@ -6,17 +6,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.examineetimer.db.ExamineeTimerDbHandler;
 import com.example.examineetimer.db.StudyTimeDO;
 import com.example.examineetimer.utils.MyUtils;
+import com.google.android.material.datepicker.MaterialDatePicker;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,6 +40,19 @@ public class DiaryFragment extends Fragment {
 
         mRecyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_main_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.datePicker();
+        final MaterialDatePicker picker = builder.build();
+
+        final FragmentManager fragmentManager = getFragmentManager();
+
+        Button btnDatePicker = (Button)v.findViewById(R.id.btn_date_picker);
+        btnDatePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                picker.show(fragmentManager, picker.toString());
+            }
+        });
 
         return v;
     }

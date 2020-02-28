@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#bcaaa4</color>
+    <color name="colorPrimaryLight">#efdcd5</color>
+    <color name="colorPrimaryDark">#8c7b75</color>
+    <color name="colorOnPrimary">#4e342e</color>
+    <color name="colorSecondPrimary">#ffe0b2</color>
+    <color name="colorSecondPrimaryLight">#ffffe4</color>
+    <color name="colorSecondPrimaryDark">#cbae82</color>
+    <color name="colorOnSecondPrimary">#bf360c</color>
+    <color name="colorAccent">#fbe9e7</color>
     <color name="whiteColor">#ffffff</color>
     <color name="lockscreenBackground">#ffffff</color>
     <color name="lockscreenForground">#40000000</color>
     <color name="transparent">#00000000</color>
+
+    <color name="background">#FAFAFA</color>
 </resources>

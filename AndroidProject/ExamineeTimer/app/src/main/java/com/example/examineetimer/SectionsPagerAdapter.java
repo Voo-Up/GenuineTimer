@@ -28,6 +28,7 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
                 return timerFragment;
             case 1:
                 DiaryFragment diaryFragment = new DiaryFragment();
+                //CalDiaryFragment diaryFragment = new CalDiaryFragment();
                 return diaryFragment;
             case 2:
                 PrepareFragment prepareFragment = new PrepareFragment();
