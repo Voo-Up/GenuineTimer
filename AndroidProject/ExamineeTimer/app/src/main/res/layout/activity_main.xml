@@ -7,12 +7,22 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        app:adSize="BANNER"
+        app:adUnitId="@string/banner_ad_unit_id_for_test"></com.google.android.gms.ads.AdView>
+
     <!-- Main content -->
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="fill_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="?attr/actionBarSize"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -25,14 +35,7 @@
         app:itemIconTint="@color/bottom_section_color"
         app:menu="@menu/menu_bot_navigation_items"/>
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        app:adSize="BANNER"
-        app:adUnitId="@string/banner_ad_unit_id_for_test"></com.google.android.gms.ads.AdView>
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

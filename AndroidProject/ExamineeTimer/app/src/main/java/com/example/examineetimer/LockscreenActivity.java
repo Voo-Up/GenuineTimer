@@ -2,6 +2,7 @@ package com.example.examineetimer;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -159,6 +160,9 @@ public class LockscreenActivity extends Activity {
 
     private void finishTimer() {
         studyTimer.cancel();
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("recent_timer", MyUtils.convertSecToTimeFormatString(mTotalStudySec));
+        setResult(Activity.RESULT_OK, resultIntent);
         finish();
     }
 

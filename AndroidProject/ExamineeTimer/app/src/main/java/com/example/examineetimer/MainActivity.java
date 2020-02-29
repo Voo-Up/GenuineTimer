@@ -1,9 +1,12 @@
 package com.example.examineetimer;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -77,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void initAdmob() {
         MobileAds.initialize(this, getString(R.string.admob_app_id));

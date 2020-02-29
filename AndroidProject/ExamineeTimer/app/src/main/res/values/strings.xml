@@ -5,7 +5,7 @@
     <string name="lockscrenOff">LockScreen Turn Off</string>
     <string name="showLockScreenText">Start Timer</string>
     <string name="unlock">UnLock</string>
-    <string name="lockScreenText">LockScreen</string>
+    <string name="lockScreenText">Study Timer</string>
     <string name="lockScreenSwipeText"><![CDATA[slide to stop timer >>]]></string>
     <string name="admob_app_id">ca-app-pub-7673979477770497~9476133561</string>
     <string name="banner_ad_unit_id">ca-app-pub-7673979477770497/8366247783</string>

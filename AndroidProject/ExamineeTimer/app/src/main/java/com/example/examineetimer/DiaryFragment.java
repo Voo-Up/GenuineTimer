@@ -25,13 +25,17 @@ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClic
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class DiaryFragment extends Fragment {
     final private String TAG = "DiaryFragment";
 
     private RecyclerView mRecyclerView;
-    private long selectedPickerTime;
+    private long mSelectedPickerTime;
+
+    Button btnDatePicker;
 
     public DiaryFragment(){}
     @Nullable
@@ -42,22 +46,39 @@ public class DiaryFragment extends Fragment {
 
         mRecyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_main_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        selectedPickerTime = 0;
 
         MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.datePicker();
+        Calendar todayCalendar = Calendar.getInstance(Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String todayOnlyDateStr = sdf.format(todayCalendar.getTime());
+        Log.i(TAG, "Today MilliSecond : " + todayCalendar.getTimeInMillis());
+        todayCalendar.set(Calendar.HOUR, 0);
+        todayCalendar.set(Calendar.MINUTE, 0);
+        todayCalendar.set(Calendar.SECOND, 0);
+        todayCalendar.set(Calendar.MILLISECOND, 0);
+        Log.i(TAG, "Today MilliSecond : " + todayCalendar.getTimeInMillis());
+        builder.setSelection(todayCalendar.getTimeInMillis());
+        mSelectedPickerTime = todayCalendar.getTimeInMillis();
         final MaterialDatePicker picker = builder.build();
-        picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
-            @Override public void onPositiveButtonClick(Long selection) {
-                Log.i(TAG, "" + selection);
-                loadAdapterList(selection);
-                selectedPickerTime = selection;
-                Log.i(TAG,"time is:" + new Date(selectedPickerTime));
+        picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
+            @Override
+            public void onPositiveButtonClick(Object selection) {
+                mSelectedPickerTime = (long)selection;
+                Log.i(TAG, "selected picker Time : " + mSelectedPickerTime);
+                Date date = new Date(mSelectedPickerTime);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                String todayOnlyDateStr = sdf.format(date);
+                Log.i(TAG, "Select Only Date : " + todayOnlyDateStr);
+                Log.i(TAG, "Select DateTime: " + date);
+                loadAdapterList(mSelectedPickerTime);
+                btnDatePicker.setText(todayOnlyDateStr);
             }
         });
 
         final FragmentManager fragmentManager = getFragmentManager();
 
-        Button btnDatePicker = (Button)v.findViewById(R.id.btn_date_picker);
+        btnDatePicker = (Button)v.findViewById(R.id.btn_date_picker);
+        btnDatePicker.setText(todayOnlyDateStr);
         btnDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +93,7 @@ public class DiaryFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.i(TAG, "onResume");
-        loadAdapterList(selectedPickerTime);
+        loadAdapterList(mSelectedPickerTime);
     }
 
     private void loadAdapterList(long selectedPickerTime) {
@@ -80,39 +101,34 @@ public class DiaryFragment extends Fragment {
         ExamineeTimerDbHandler dbHandler = new ExamineeTimerDbHandler(getContext());
         Cursor cursor;
 
+        //select DB
+        Log.i(TAG, "Select table");
         if(selectedPickerTime == 0) {
-            //select DB
-            Log.i(TAG, "Select table");
             cursor = dbHandler.select(StudyTimeDO.StudyTimeEntry.TABLE_NAME);
-
-            Log.i(TAG, "cursor Count : " + cursor.getCount());
-            if (cursor.getCount() > 0) {
-                do {
-                    int id = cursor.getInt(cursor.getColumnIndex(StudyTimeDO.StudyTimeEntry.COLUMN_NAME_id));
-
-                    Date date = new Date();
-                    try {
-                        date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(cursor.getString(cursor.getColumnIndex(StudyTimeDO.StudyTimeEntry.COLUMN_NAME_START_DATETIME)));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
-                    int studySec = cursor.getInt(cursor.getColumnIndex(StudyTimeDO.StudyTimeEntry.COLUMN_NAME_STUDY_SEC));
-                    StudyTimeDO d = new StudyTimeDO(id, date, studySec);
-                    Log.i(TAG, d.getId() + ", " + d.getStartDateTime() + ", " + d.getStudySec());
-                    DiaryListDO dl = new DiaryListDO(MyUtils.convertSecToTimeFormatString(d.getStudySec()), MyUtils.convertDateTimeToFormatString(d.getStartDateTime()));
-                    arrayList.add(dl);
-                }while(cursor.moveToNext());
-            }
         }
-        else if(selectedPickerTime > 0) {
-            /*TODO: Select Adapter By Date*/
-            //cursor = dbHandler.selectByPickerDate(StudyTimeDO.StudyTimeEntry.TABLE_NAME, selectedPickerTime);
-        } else {
-            Log.e(TAG, "invalide selectedPickerTime" + selectedPickerTime);
-            return ;
+        else{
+            cursor = dbHandler.selectByPickerDate(StudyTimeDO.StudyTimeEntry.TABLE_NAME, mSelectedPickerTime);
         }
 
+        Log.i(TAG, "cursor Count : " + cursor.getCount());
+        if (cursor.getCount() > 0) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndex(StudyTimeDO.StudyTimeEntry.COLUMN_NAME_id));
+
+                Date date = new Date();
+                try {
+                    date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(cursor.getString(cursor.getColumnIndex(StudyTimeDO.StudyTimeEntry.COLUMN_NAME_START_DATETIME)));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                int studySec = cursor.getInt(cursor.getColumnIndex(StudyTimeDO.StudyTimeEntry.COLUMN_NAME_STUDY_SEC));
+                StudyTimeDO d = new StudyTimeDO(id, date, studySec);
+                Log.i(TAG, d.getId() + ", " + d.getStartDateTime() + ", " + d.getStudySec());
+                DiaryListDO dl = new DiaryListDO(MyUtils.convertSecToTimeFormatString(d.getStudySec()), MyUtils.convertDateTimeToFormatString(d.getStartDateTime()));
+                arrayList.add(dl);
+            }while(cursor.moveToNext());
+        }
 
         CustomAdapter adapter = new CustomAdapter(arrayList);
         mRecyclerView.setAdapter(adapter);

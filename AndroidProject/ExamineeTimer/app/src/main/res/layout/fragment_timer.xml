@@ -5,16 +5,28 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/tv_recent_study_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:text="00:00:00"
+        android:textSize="56dp"
+        />
     <Button
         android:id="@+id/btn_open_lockscreen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="200dp"
+        android:layout_margin="24dp"
         android:textSize="36dp"
         android:text="@string/showLockScreenText"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        app:layout_constraintTop_toBottomOf="@+id/tv_recent_study_time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
