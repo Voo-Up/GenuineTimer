@@ -18,6 +18,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.ncorti.slidetoact.SlideToActView;
+import com.tomerrosenfeld.customanalogclockview.CustomAnalogClock;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -63,6 +64,9 @@ public class LockscreenActivity extends Activity {
                 finishTimer();
             }
         });
+
+        CustomAnalogClock customAnalogClock = (CustomAnalogClock) findViewById(R.id.analog_clock);
+        customAnalogClock.setAutoUpdate(true);
 
         startStudyTimer();
     }

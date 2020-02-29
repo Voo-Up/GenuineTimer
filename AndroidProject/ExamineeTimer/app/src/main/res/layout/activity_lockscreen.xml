@@ -30,6 +30,16 @@
             app:adUnitId="@string/banner_ad_unit_id_for_test"></com.google.android.gms.ads.AdView>
 
 
+        <com.tomerrosenfeld.customanalogclockview.CustomAnalogClock
+            android:id="@+id/analog_clock"
+            android:layout_marginTop="50dp"
+            android:layout_width="184dp"
+            android:layout_height="184dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tv_study_timer" />
+        <!--
         <TextView
             android:id="@+id/tv_lockscreen_title"
             android:layout_width="wrap_content"
@@ -42,7 +52,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/tv_study_timer" />
-
+        -->
         <TextView
             android:id="@+id/tv_study_timer"
             android:layout_width="wrap_content"
