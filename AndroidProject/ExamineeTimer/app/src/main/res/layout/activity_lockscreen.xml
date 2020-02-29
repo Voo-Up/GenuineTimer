@@ -17,6 +17,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/lockScreenadView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:adSize="BANNER"
+            app:adUnitId="@string/banner_ad_unit_id_for_test"></com.google.android.gms.ads.AdView>
+
+
         <TextView
             android:id="@+id/tv_lockscreen_title"
             android:layout_width="wrap_content"
@@ -136,8 +149,6 @@
                 app:text_size="16sp"
                 app:slider_height="48dp"
                 app:slider_locked="false" />
-
-
         </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

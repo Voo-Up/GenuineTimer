@@ -12,6 +12,10 @@ import android.widget.TextView;
 import com.example.examineetimer.db.ExamineeTimerDbHandler;
 import com.example.examineetimer.db.StudyTimeDO;
 import com.example.examineetimer.utils.MyUtils;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.ncorti.slidetoact.SlideToActView;
 
 import java.text.SimpleDateFormat;
@@ -22,6 +26,7 @@ import java.util.TimerTask;
 
 public class LockscreenActivity extends Activity {
     private static final String TAG = "LockscreenActivity";
+    private AdView mAdView;
 
     private Timer studyTimer;
     private String mStartDateTime;
@@ -29,14 +34,17 @@ public class LockscreenActivity extends Activity {
 
     private TextView tvStudyTime;
     private TextView tvStudyStartTime;
+    private TextView tvCurrentTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lockscreen);
+        initAdmob();
 
         tvStudyTime = (TextView)findViewById(R.id.tv_study_timer);
         tvStudyStartTime = (TextView)findViewById(R.id.tv_start_time);
+        tvCurrentTime = (TextView)findViewById(R.id.tv_current_time);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
@@ -141,6 +149,7 @@ public class LockscreenActivity extends Activity {
                     public void run() {
                         String timeString = MyUtils.convertSecToTimeFormatString(mTotalStudySec);
                         tvStudyTime.setText(timeString);
+                        tvCurrentTime.setText(getDateTime());
                     }
                 });
             }
@@ -151,5 +160,62 @@ public class LockscreenActivity extends Activity {
     private void finishTimer() {
         studyTimer.cancel();
         finish();
+    }
+
+    private void initAdmob() {
+        MobileAds.initialize(this, getString(R.string.admob_app_id));
+        mAdView = findViewById(R.id.lockScreenadView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        mAdView.setAdListener(new AdListener() {
+
+            @Override
+
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+                Log.d(TAG, "onAdLoaded");
+            }
+            @Override
+
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+                // 광고 로드에 문제가 있을시 출력됩니다.
+                Log.d(TAG, "onAdFailedToLoad " + errorCode);
+
+            }
+
+
+
+            @Override
+
+            public void onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+
+
+
+            @Override
+
+            public void onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+            }
+
+
+
+            @Override
+
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+
+            public void onAdClosed() {
+                // Code to be executed when the user is about to return
+                // to the app after tapping on an ad.
+            }
+        });
     }
 }
