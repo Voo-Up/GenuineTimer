@@ -20,6 +20,7 @@ import com.example.examineetimer.db.ExamineeTimerDbHandler;
 import com.example.examineetimer.db.StudyTimeDO;
 import com.example.examineetimer.utils.MyUtils;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,7 +30,8 @@ import java.util.Date;
 public class DiaryFragment extends Fragment {
     final private String TAG = "DiaryFragment";
 
-    RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerView;
+    private long selectedPickerTime;
 
     public DiaryFragment(){}
     @Nullable
@@ -40,9 +42,18 @@ public class DiaryFragment extends Fragment {
 
         mRecyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_main_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        selectedPickerTime = 0;
 
         MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.datePicker();
         final MaterialDatePicker picker = builder.build();
+        picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
+            @Override public void onPositiveButtonClick(Long selection) {
+                Log.i(TAG, "" + selection);
+                loadAdapterList(selection);
+                selectedPickerTime = selection;
+                Log.i(TAG,"time is:" + new Date(selectedPickerTime));
+            }
+        });
 
         final FragmentManager fragmentManager = getFragmentManager();
 
@@ -60,35 +71,48 @@ public class DiaryFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         Log.i(TAG, "onResume");
+        loadAdapterList(selectedPickerTime);
+    }
 
+    private void loadAdapterList(long selectedPickerTime) {
         ArrayList<DiaryListDO> arrayList = new ArrayList<>();
-
-        //select DB
-        Log.i(TAG, "Select table");
         ExamineeTimerDbHandler dbHandler = new ExamineeTimerDbHandler(getContext());
-        Cursor c = dbHandler.select(StudyTimeDO.StudyTimeEntry.TABLE_NAME);
+        Cursor cursor;
 
-        Log.i(TAG, "cursor Count : " + c.getCount());
-        if (c.getCount() > 0) {
-            do {
-                int id = c.getInt(c.getColumnIndex(StudyTimeDO.StudyTimeEntry.COLUMN_NAME_id));
+        if(selectedPickerTime == 0) {
+            //select DB
+            Log.i(TAG, "Select table");
+            cursor = dbHandler.select(StudyTimeDO.StudyTimeEntry.TABLE_NAME);
 
-                Date date = new Date();
-                try {
-                    date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(c.getString(c.getColumnIndex(StudyTimeDO.StudyTimeEntry.COLUMN_NAME_START_DATETIME)));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+            Log.i(TAG, "cursor Count : " + cursor.getCount());
+            if (cursor.getCount() > 0) {
+                do {
+                    int id = cursor.getInt(cursor.getColumnIndex(StudyTimeDO.StudyTimeEntry.COLUMN_NAME_id));
 
-                int studySec = c.getInt(c.getColumnIndex(StudyTimeDO.StudyTimeEntry.COLUMN_NAME_STUDY_SEC));
-                StudyTimeDO d = new StudyTimeDO(id, date, studySec);
-                Log.i(TAG, d.getId() + ", " + d.getStartDateTime() + ", " + d.getStudySec());
-                DiaryListDO dl = new DiaryListDO(MyUtils.convertSecToTimeFormatString(d.getStudySec()), MyUtils.convertDateTimeToFormatString(d.getStartDateTime()));
-                arrayList.add(dl);
-            }while(c.moveToNext());
+                    Date date = new Date();
+                    try {
+                        date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(cursor.getString(cursor.getColumnIndex(StudyTimeDO.StudyTimeEntry.COLUMN_NAME_START_DATETIME)));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    int studySec = cursor.getInt(cursor.getColumnIndex(StudyTimeDO.StudyTimeEntry.COLUMN_NAME_STUDY_SEC));
+                    StudyTimeDO d = new StudyTimeDO(id, date, studySec);
+                    Log.i(TAG, d.getId() + ", " + d.getStartDateTime() + ", " + d.getStudySec());
+                    DiaryListDO dl = new DiaryListDO(MyUtils.convertSecToTimeFormatString(d.getStudySec()), MyUtils.convertDateTimeToFormatString(d.getStartDateTime()));
+                    arrayList.add(dl);
+                }while(cursor.moveToNext());
+            }
         }
+        else if(selectedPickerTime > 0) {
+            /*TODO: Select Adapter By Date*/
+            //cursor = dbHandler.selectByPickerDate(StudyTimeDO.StudyTimeEntry.TABLE_NAME, selectedPickerTime);
+        } else {
+            Log.e(TAG, "invalide selectedPickerTime" + selectedPickerTime);
+            return ;
+        }
+
 
         CustomAdapter adapter = new CustomAdapter(arrayList);
         mRecyclerView.setAdapter(adapter);

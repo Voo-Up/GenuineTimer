@@ -28,19 +28,22 @@ public class LockscreenActivity extends Activity {
     private int mTotalStudySec;
 
     private TextView tvStudyTime;
+    private TextView tvStudyStartTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lockscreen);
 
-        tvStudyTime = (TextView) findViewById(R.id.tv_study_timer);
+        tvStudyTime = (TextView)findViewById(R.id.tv_study_timer);
+        tvStudyStartTime = (TextView)findViewById(R.id.tv_start_time);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 
         mStartDateTime = getDateTime();
         Log.i(TAG, "Get Start DateTime : " + mStartDateTime);
+        tvStudyStartTime.setText(mStartDateTime);
 
         SlideToActView sta = (SlideToActView) findViewById(R.id.sld_unlock);
         sta.setOnSlideCompleteListener(new SlideToActView.OnSlideCompleteListener() {
@@ -51,6 +54,8 @@ public class LockscreenActivity extends Activity {
                 finishTimer();
             }
         });
+
+        startStudyTimer();
     }
 
     private String getDateTime() {
@@ -106,8 +111,6 @@ public class LockscreenActivity extends Activity {
         newUiOptions |= View.SYSTEM_UI_FLAG_FULLSCREEN;
         newUiOptions |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
         getWindow().getDecorView().setSystemUiVisibility(newUiOptions);
-
-        startStudyTimer();
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {

@@ -31,4 +31,12 @@ public class ExamineeTimerDbHandler {
 
         return c;
     }
+
+    public Cursor selectByPickerDate(String tableName, long selected) {
+        mDB = mHelper.getReadableDatabase();
+        Cursor c = mDB.query(tableName, null, null, null, null, null, "id DESC");
+        c.moveToFirst();
+
+        return c;
+    }
 }
