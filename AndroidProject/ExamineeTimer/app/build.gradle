@@ -4,7 +4,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
     defaultConfig {
-        applicationId "com.example.examineetimer"
+        applicationId "com.vup.examineetimer"
         minSdkVersion 17
         targetSdkVersion 29
         versionCode 1
@@ -19,6 +19,13 @@ android {
     }
     lintOptions {
         disable 'MissingTranslation'
+        checkReleaseBuilds false
+
+        // Or, if you prefer, you can continue to check for errors in release builds,
+
+        // but continue the build even when errors are found:
+
+        abortOnError false
     }
 }
 
