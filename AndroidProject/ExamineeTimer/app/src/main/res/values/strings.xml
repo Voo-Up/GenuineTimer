@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ExamineeTimer</string>
+    <string name="app_name">사당오락 타이머</string>
     <string name="lockScreenSwitchText">LockScreen Switch</string>
     <string name="lockscrenOn">LockScreen Turn On</string>
     <string name="lockscrenOff">LockScreen Turn Off</string>
