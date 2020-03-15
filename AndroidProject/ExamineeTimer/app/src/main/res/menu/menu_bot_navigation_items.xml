@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/itm_timer"
-        android:title="타이머"
+        android:title="@string/menu_timer"
         android:icon="@drawable/ic_sand_timer"
         android:checked="true"/>
     <item
         android:id="@+id/itm_diary"
-        android:title="공부일지"
+        android:title="@string/menu_study_diary"
         android:icon="@drawable/ic_diary"/>
     <item
         android:id="@+id/itm_prepare"
-        android:title="준비중..."
+        android:title="@string/menu_prepare"
         android:icon="@drawable/ic_barrier" />
 </menu>
