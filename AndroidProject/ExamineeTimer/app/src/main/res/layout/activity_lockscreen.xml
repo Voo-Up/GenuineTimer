@@ -156,7 +156,7 @@
                 app:outer_color="@color/colorPrimary"
                 app:inner_color="@color/colorAccent"
                 app:border_radius="28dp"
-                app:text="Really Stop Studying?"
+                app:text="@string/lockScreenSwipeText2"
                 app:text_size="16sp"
                 app:slider_height="48dp"
                 app:slider_locked="false" />

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">4 Accept 5 Reject Timer</string>
+    <string name="app_name">4 đậu 5 Loại hẹn giờ</string>
     <string name="lockScreenSwitchText">LockScreen Switch</string>
     <string name="lockscrenOn">LockScreen Turn On</string>
     <string name="lockscrenOff">LockScreen Turn Off</string>
@@ -7,13 +7,13 @@
     <string name="unlock">UnLock</string>
     <string name="lockScreenText">Study Timer</string>
     <string name="lockScreenSwipeText"><![CDATA[slide to stop timer >>]]></string>
-    <string name="lockScreenSwipeText2">Really Stop Studying?</string>
+    <string name="lockScreenSwipeText2">पढ़ाई बंद करो?</string>
     <string name="admob_app_id">ca-app-pub-7673979477770497~9476133561</string>
     <string name="banner_ad_unit_id">ca-app-pub-7673979477770497/8366247783</string>
     <string name="banner_ad_unit_id_for_test">ca-app-pub-3940256099942544/6300978111</string>
 
-    <string name="menu_timer">TIMER</string>
-    <string name="menu_study_diary">DIARY</string>
-    <string name="menu_prepare">PREPARE</string>
+    <string name="menu_timer">hẹn giờ</string>
+    <string name="menu_study_diary">Nhật ký</string>
+    <string name="menu_prepare">Sẵn sàng</string>
     
 </resources>
